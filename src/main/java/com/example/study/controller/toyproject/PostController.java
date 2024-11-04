@@ -2,6 +2,7 @@ package com.example.study.controller.toyproject;
 
 import com.example.study.exception.PostException;
 import com.example.study.model.Post;
+import com.example.study.exception.ErrorResponse;
 import com.example.study.service.PostService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -39,23 +40,27 @@ public class PostController {
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
     }
-
     @PutMapping("/{id}")
-    public ResponseEntity<Post> updatePost(@PathVariable Long id, @RequestParam String title, @RequestParam String content) {
-        Post post = postService.updatePost(id, title, content);
-        return ResponseEntity.ok(post);
+    public ResponseEntity<?> updatePost(@PathVariable Long id, @RequestParam String title, @RequestParam String content) {
+        try {
+            Post post = postService.updatePost(id, title, content);
+            return ResponseEntity.ok(post);
+        } catch (PostException ex) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ErrorResponse(ex.getMessage()));
+        }
     }
 
     // 게시물 삭제
     @DeleteMapping("/{id}")
     public ResponseEntity<String> deletePost(@PathVariable Long id) {
         postService.deletePost(id);
-        return ResponseEntity.ok("게시물 " + id + "가 삭제되었습니다.");
+        return ResponseEntity.ok("게시물 " + id + "이(가) 삭제되었습니다.");
     }
 
     // 예외 처리
     @ExceptionHandler(PostException.class)
-    public ResponseEntity<String> handlePostNotFound(PostException ex) {
-        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ex.getMessage());
+    public ResponseEntity<ErrorResponse> handlePostNotFound(PostException ex) {
+        ErrorResponse errorResponse = new ErrorResponse(ex.getMessage());
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(errorResponse);
     }
 }

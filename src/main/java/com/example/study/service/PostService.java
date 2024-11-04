@@ -1,5 +1,6 @@
 package com.example.study.service;
 
+import com.example.study.exception.PostException;
 import com.example.study.model.Post;
 import com.example.study.repository.PostRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,22 +28,32 @@ public class PostService {
     }
 
     public List<Post> searchPosts(String keyword) {
-        return postRepository.findByTitleContainingOrContentContaining(keyword, keyword);
+        List<Post> posts = postRepository.findByTitleContainingOrContentContaining(keyword, keyword);
+        if (posts.isEmpty()) {
+            throw new PostException("조회된 게시물이 없습니다.");
+        }
+        return posts;
     }
 
     public Optional<Post> getPost(Long id) {
-        return postRepository.findById(id);
+        return postRepository.findById(id)
+                .or(() -> {
+                    throw new PostException("해당 게시물이 없습니다.");
+                });
     }
 
     public Post updatePost(Long id, String title, String content) {
         Post post = postRepository.findById(id)
-                .orElseThrow(() -> new IllegalArgumentException("해당 게시물이 없습니다."));
+                .orElseThrow(() -> new PostException("해당 게시물이 없습니다."));
         post.setTitle(title);
         post.setContent(content);
         return postRepository.save(post);
     }
 
     public void deletePost(Long id) {
+        if (!postRepository.existsById(id)) {
+            throw new PostException("해당 게시물이 없습니다.");
+        }
         postRepository.deleteById(id);
     }
 }
