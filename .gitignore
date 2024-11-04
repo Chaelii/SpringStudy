@@ -1,0 +1,104 @@
+HELP.md
+.gradle
+build/
+!gradle/wrapper/gradle-wrapper.jar
+!**/src/main/**/build/
+!**/src/test/**/build/
+
+### STS ###
+.apt_generated
+.classpath
+.factorypath
+.project
+.settings
+.springBeans
+.sts4-cache
+bin/
+!**/src/main/**/bin/
+!**/src/test/**/bin/
+
+### IntelliJ IDEA ###
+.idea
+*.iws
+*.iml
+*.ipr
+out/
+!**/src/main/**/out/
+!**/src/test/**/out/
+
+### NetBeans ###
+/nbproject/private/
+/nbbuild/
+/dist/
+/nbdist/
+/.nb-gradle/
+
+# Java 관련
+*.class
+*.jar
+*.war
+*.ear
+
+# 프로젝트 파일
+.idea/
+.vscode/
+.DS_Store
+
+# Maven 빌드 파일
+target/
+pom.xml.tag
+pom.xml.releaseBackup
+pom.xml.versionsBackup
+pom.xml.next
+release.properties
+dependency-reduced-pom.xml
+buildNumber.properties
+.mvn/timing.properties
+
+# Gradle 빌드 파일
+gradle-app.setting
+!gradle-wrapper.jar
+.gradle/
+.gradle/*
+
+# Spring Boot 관련
+logs/
+*.log
+!src/main/resources/
+!src/main/resources/*.yml
+!src/main/resources/*.yaml
+!src/main/resources/*.properties
+!src/test/resources/
+!src/test/resources/*.yml
+!src/test/resources/*.yaml
+!src/test/resources/*.properties
+
+# 환경 파일
+.env
+*.env
+
+# Lombok 파일
+*.lombok.config
+
+# H2 데이터베이스 파일
+*.h2.db
+*.mv.db
+*.trace.db
+
+# IntelliJ IDEA / Eclipse / NetBeans 등의 IDE 설정 파일
+/.idea/
+/.settings/
+/.classpath
+/.project
+/.factorypath
+nbproject/private/
+releases/
+dependency-cache/
+
+# 기타 시스템 파일
+Thumbs.db
+
+# application.properties 파일 제외
+/application.properties
+
+
